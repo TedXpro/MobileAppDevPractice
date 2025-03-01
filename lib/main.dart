@@ -1,56 +1,52 @@
 import 'package:flutter/material.dart';
+import 'quote.dart';
+import 'quote_card.dart';
 
 void main() {
-  runApp(MaterialApp(home: Home())); // adding a root widget!!
+  runApp(MaterialApp(home: QuoteList())); // adding a root widget!!
 }
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class QuoteList extends StatefulWidget {
+  const QuoteList({super.key});
+
+  @override
+  State<QuoteList> createState() => _QuoteList();
+}
+
+class _QuoteList extends State<QuoteList> {
+  List<Quote> quotes = [
+    Quote(
+      text: "Be yourself everyone else is already taken",
+      author: "Oscar Wilde",
+    ),
+    Quote(
+      text: "I have nothing to declare except my genius",
+      author: "Oscar Wilde",
+    ),
+    Quote(
+      text: "The truth is rarely pure and never simple",
+      author: "Oscar Wilde",
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        title: Text("My First"),
+        title: Text("Awesome Quotes"),
         centerTitle: true,
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: Colors.redAccent,
       ),
-      body: Row(
-        children: [
-          Expanded(
-            flex: 3,
-            child: Image.asset("assets/ml-1.jpg"),
-          ),
-          Expanded(
-            flex: 3,
-            child: Container(
-              padding: EdgeInsets.all(30),
-              color: Colors.cyan,
-              child: Text("1"),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Container(
-              padding: EdgeInsets.all(30),
-              color: Colors.pink,
-              child: Text("2"),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Container(
-              padding: EdgeInsets.all(30),
-              color: Colors.amber,
-              child: Text("3"),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => print("Clicked"),
-        backgroundColor: Colors.deepOrange,
-        child: Text("Click"),
+      body: Column(
+        children: quotes.map((quote) => QuoteCard(
+          quote: quote,
+          delete: () => {
+            setState(() {
+              quotes.remove(quote);
+            })
+          }
+        )).toList(),
       ),
     );
   }
